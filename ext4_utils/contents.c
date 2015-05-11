@@ -261,6 +261,18 @@ int inode_set_permissions(u32 inode_num, u16 mode, u16 uid, u16 gid, u32 mtime)
 	return 0;
 }
 
+int inode_set_extra_flags(u32 inode_num, u32 flags)
+{
+	struct ext4_inode *inode = get_inode(inode_num);
+
+	if (!inode)
+		return -1;
+
+	inode->i_flags |= flags;
+
+	return 0;
+}
+
 /*
  * Returns the amount of free space available in the specified
  * xattr region
