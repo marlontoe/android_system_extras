@@ -26,13 +26,10 @@ LOCAL_SRC_FILES := $(libext4_utils_src_files)
 LOCAL_MODULE := libext4_utils_host
 LOCAL_STATIC_LIBRARIES := \
     libsparse_host \
-    libz \
-    liblz4-host
+    libz
 ifneq ($(HOST_OS),windows)
   LOCAL_STATIC_LIBRARIES += libselinux
 endif
-LOCAL_C_INCLUDES += external/lz4/lib
-
 include $(BUILD_HOST_STATIC_LIBRARY)
 
 
@@ -42,15 +39,13 @@ LOCAL_MODULE := make_ext4fs
 LOCAL_STATIC_LIBRARIES += \
     libext4_utils_host \
     libsparse_host \
-    libz \
-    liblz4-host
+    libz
 ifeq ($(HOST_OS),windows)
   LOCAL_LDLIBS += -lws2_32
 else
   LOCAL_STATIC_LIBRARIES += libselinux
   LOCAL_CFLAGS := -DHOST
 endif
-
 include $(BUILD_HOST_EXECUTABLE)
 
 
@@ -62,35 +57,20 @@ ifneq ($(HOST_OS),windows)
 
 include $(CLEAR_VARS)
 LOCAL_SRC_FILES := $(libext4_utils_src_files)
-LOCAL_C_INCLUDES += external/zlib
 LOCAL_MODULE := libext4_utils
 LOCAL_SHARED_LIBRARIES := \
     libselinux \
     libsparse \
     libz
-LOCAL_STATIC_LIBRARIES += liblz4-static
-LOCAL_C_INCLUDES += external/lz4/lib
-
-ifeq ($(BOARD_SUPPRESS_EMMC_WIPE),true)
-    LOCAL_CFLAGS += -DSUPPRESS_EMMC_WIPE
-endif
-
 include $(BUILD_SHARED_LIBRARY)
 
 
 include $(CLEAR_VARS)
 LOCAL_SRC_FILES := $(libext4_utils_src_files)
-LOCAL_C_INCLUDES += external/zlib
 LOCAL_MODULE := libext4_utils_static
 LOCAL_STATIC_LIBRARIES += \
     libselinux \
     libsparse_static
-LOCAL_C_INCLUDES += external/lz4/lib
-
-ifeq ($(BOARD_SUPPRESS_EMMC_WIPE),true)
-    LOCAL_CFLAGS += -DSUPPRESS_EMMC_WIPE
-endif
-
 include $(BUILD_STATIC_LIBRARY)
 
 
@@ -101,8 +81,6 @@ LOCAL_SHARED_LIBRARIES := \
     libext4_utils \
     libselinux \
     libz
-LOCAL_C_INCLUDES += external/lz4/lib
-LOCAL_STATIC_LIBRARIES += liblz4-static
 include $(BUILD_EXECUTABLE)
 
 include $(CLEAR_VARS)
